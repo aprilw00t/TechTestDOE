@@ -11,12 +11,15 @@ import uk.gov.dwp.uc.pairtest.exception.TooManyTicketsException;
 public class TicketServiceImpl implements TicketService {
     private TicketPaymentServiceImpl ticketPaymentService;
     private SeatReservationService seatReservationService;
-private static int ADULT_PRICE = 20;
-        private static int CHILD_PRICE = 10;
-    public TicketServiceImpl(TicketPaymentServiceImpl ticketPaymentService, SeatReservationService seatReservationService){
+
+    private static int ADULT_PRICE = 20;
+    private static int CHILD_PRICE = 10;
+
+    public TicketServiceImpl(TicketPaymentServiceImpl ticketPaymentService, SeatReservationService seatReservationService) {
         this.ticketPaymentService = ticketPaymentService;
         this.seatReservationService = seatReservationService;
     }
+
     /**
      * Should only have private methods other than the one below.
      */
@@ -33,12 +36,12 @@ private static int ADULT_PRICE = 20;
             if (ticketTypeRequest.getTicketType() == TicketTypeRequest.Type.ADULT) {
                 adultIncluded = true;
                 cost += ADULT_PRICE * ticketTypeRequest.getNoOfTickets();
-                numberOfSeats+=1;
+                numberOfSeats += 1;
             }
-            if(ticketTypeRequest.getTicketType() == TicketTypeRequest.Type.CHILD)
-            {
+
+            if (ticketTypeRequest.getTicketType() == TicketTypeRequest.Type.CHILD) {
                 cost += CHILD_PRICE * ticketTypeRequest.getNoOfTickets();
-                numberOfSeats+=1;
+                numberOfSeats += 1;
             }
 
         }
@@ -47,7 +50,6 @@ private static int ADULT_PRICE = 20;
 
         ticketPaymentService.makePayment(accountId, cost);
         seatReservationService.reserveSeat(accountId, numberOfSeats);
-
 
 
     }
