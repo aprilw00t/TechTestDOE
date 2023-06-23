@@ -27,6 +27,7 @@
             <version>4.0.0</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <build>
@@ -40,6 +41,7 @@
                     <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 </project>
