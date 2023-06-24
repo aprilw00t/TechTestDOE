@@ -31,44 +31,44 @@ public class TicketServiceImplTest {
 
     @Test(expected = TooManyTicketsException.class)
     public void purchaseTickets_OnlyAllowsTwenty() {
-        Long acctId = 12l;
-        TicketTypeRequest req = new TicketTypeRequest(TicketTypeRequest.Type.ADULT, 15);
-        TicketTypeRequest req2 = new TicketTypeRequest(TicketTypeRequest.Type.ADULT, 6);
-        TicketTypeRequest[] reqArray = {req, req2};
+        Long acctId = 12L;
+        TicketTypeRequest request = new TicketTypeRequest(TicketTypeRequest.Type.ADULT, 15);
+        TicketTypeRequest request2 = new TicketTypeRequest(TicketTypeRequest.Type.ADULT, 6);
+        TicketTypeRequest[] requestArray = {request, request2};
         TicketServiceImpl ticketService = new TicketServiceImpl(ticketPaymentService, seatReservationService);
 
-        ticketService.purchaseTickets(acctId, reqArray);
+        ticketService.purchaseTickets(acctId, requestArray);
     }
 
     @Test(expected = InvalidIdException.class)
     public void purchaseTickets_OnlyAllowIdMoreThanOne() {
-        Long acctId = 0l;
-        TicketTypeRequest req = new TicketTypeRequest(TicketTypeRequest.Type.ADULT, 18);
+        Long acctId = 0L;
+        TicketTypeRequest request = new TicketTypeRequest(TicketTypeRequest.Type.ADULT, 18);
         TicketServiceImpl ticketService = new TicketServiceImpl(ticketPaymentService, seatReservationService);
 
-        ticketService.purchaseTickets(acctId, req);
+        ticketService.purchaseTickets(acctId, request);
     }
 
     @Test(expected = ChildWithoutAdultException.class)
     public void purchaseTickets_OnlyAllowTicketsWithAdult() {
-        Long acctId = 1l;
-        TicketTypeRequest req = new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 18);
-        TicketTypeRequest[] reaArray = {req};
+        Long acctId = 1L;
+        TicketTypeRequest request = new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 18);
+        TicketTypeRequest[] requestArray = {request};
         TicketServiceImpl ticketService = new TicketServiceImpl(ticketPaymentService, seatReservationService);
 
-        ticketService.purchaseTickets(acctId, reaArray);
+        ticketService.purchaseTickets(acctId, requestArray);
     }
 
     @Test
     public void purchaseTickets_CallsTicketPaymentService_withCorrectParams() {
-        Long acctId = 1987l;
-        TicketTypeRequest req = new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1);
-        TicketTypeRequest req2 = new TicketTypeRequest(TicketTypeRequest.Type.ADULT, 1);
-        TicketTypeRequest req3 = new TicketTypeRequest(TicketTypeRequest.Type.INFANT, 1);
-        TicketTypeRequest[] reqArray = {req, req2, req3};
+        Long acctId = 1987L;
+        TicketTypeRequest request = new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1);
+        TicketTypeRequest request2 = new TicketTypeRequest(TicketTypeRequest.Type.ADULT, 1);
+        TicketTypeRequest request3 = new TicketTypeRequest(TicketTypeRequest.Type.INFANT, 1);
+        TicketTypeRequest[] requestArray = {request, request2, request3};
         TicketServiceImpl ticketService = new TicketServiceImpl(mockTicketPaymentService, seatReservationService);
 
-        ticketService.purchaseTickets(acctId, reqArray);
+        ticketService.purchaseTickets(acctId, requestArray);
 
         Mockito.verify(mockTicketPaymentService, times(1)).makePayment(1987l, 30);
     }
@@ -76,14 +76,14 @@ public class TicketServiceImplTest {
     @Test
     public void purchaseTickets_CallsSeatReservationService_withCorrectParams() {
         TicketPaymentServiceImpl ticketPaymentService = new TicketPaymentServiceImpl();
-        Long acctId = 1987l;
-        TicketTypeRequest req = new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1);
-        TicketTypeRequest req2 = new TicketTypeRequest(TicketTypeRequest.Type.ADULT, 1);
-        TicketTypeRequest req3 = new TicketTypeRequest(TicketTypeRequest.Type.INFANT, 1);
-        TicketTypeRequest[] reqArray = {req, req2, req3};
+        Long acctId = 1987L;
+        TicketTypeRequest request = new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1);
+        TicketTypeRequest request2 = new TicketTypeRequest(TicketTypeRequest.Type.ADULT, 1);
+        TicketTypeRequest request3 = new TicketTypeRequest(TicketTypeRequest.Type.INFANT, 1);
+        TicketTypeRequest[] requestArray = {request, request2, request3};
         TicketServiceImpl ticketService = new TicketServiceImpl(ticketPaymentService, mockSeatReservationService);
 
-        ticketService.purchaseTickets(acctId, reqArray);
+        ticketService.purchaseTickets(acctId, requestArray);
 
         Mockito.verify(mockSeatReservationService, times(1)).reserveSeat(1987l, 2);
     }

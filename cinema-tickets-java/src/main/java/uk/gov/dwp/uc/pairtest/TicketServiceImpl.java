@@ -9,8 +9,8 @@ import uk.gov.dwp.uc.pairtest.exception.InvalidPurchaseException;
 import uk.gov.dwp.uc.pairtest.exception.TooManyTicketsException;
 
 public class TicketServiceImpl implements TicketService {
-    private TicketPaymentServiceImpl ticketPaymentService;
-    private SeatReservationService seatReservationService;
+    private final TicketPaymentServiceImpl ticketPaymentService;
+    private final SeatReservationService seatReservationService;
 
     private static int ADULT_PRICE = 20;
     private static int CHILD_PRICE = 10;
@@ -51,10 +51,10 @@ public class TicketServiceImpl implements TicketService {
         ticketPaymentService.makePayment(accountId, cost);
         seatReservationService.reserveSeat(accountId, numberOfSeats);
 
-
     }
 
     private void validatePurchase(Long accountId, Boolean adultIncluded, int numberOfTickets) {
+
         if (accountId <= 0) {
             throw new InvalidIdException("Id should be above 0");
         }
@@ -65,6 +65,4 @@ public class TicketServiceImpl implements TicketService {
             throw new TooManyTicketsException("Ticket number should not exceed 20");
         }
     }
-
-
 }
